@@ -1,0 +1,31 @@
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.edit-btn:hover {
+  color: var(--clay-accent) !important;
+  border-color: var(--clay-accent) !important;
+  background: var(--clay-accent-soft) !important;
+  box-shadow:
+    3px 3px 10px var(--clay-accent-glow),
+    -1px -1px 5px var(--clay-shadow-b),
+    inset 0 1px 0 var(--clay-inner-top) !important;
+  transform: scale(1.08);
+}
+
+.edit-btn:active { transform: scale(0.93); }
+
+.delete-btn:hover {
+  color: #FDA4AF !important;
+  border-color: rgba(251, 113, 133, 0.45) !important;
+  background: rgba(251, 113, 133, 0.10) !important;
+  box-shadow:
+    3px 3px 10px rgba(251, 113, 133, 0.22),
+    -1px -1px 5px rgba(255,255,255,0.04),
+    inset 0 1px 0 rgba(255,255,255,0.08) !important;
+  transform: scale(1.08);
+}
+
+.delete-btn:active {
+  transform: scale(0.93);
+}

@@ -1,0 +1,45 @@
+<div class="glass-card my-4" style="padding: 1.5rem">
+  <app-calendar-header
+    [monthLabel]="monthLabel()"
+    [collapsed]="collapsed()"
+    (toggleCollapse)="toggleCollapse()"
+  />
+
+  @if (!collapsed()) {
+    <div id="calendar-body" class="animate-slide-up">
+      <app-calendar-nav
+        [selectedMonth]="selectedMonth()"
+        [selectedYear]="selectedYear()"
+        [years]="years()"
+        (prevMonth)="prevMonth()"
+        (nextMonth)="nextMonth()"
+        (goToday)="goToday()"
+        (monthChanged)="onMonthChange($event)"
+        (yearChanged)="onYearChange($event)"
+      />
+
+      <!-- Weekday headers -->
+      <div class="grid grid-cols-7 mb-2">
+        @for (day of weekdays; track day) {
+          <div class="text-center text-xs font-bold py-1 tracking-widest"
+               style="color: var(--clay-muted); letter-spacing: 0.08em">
+            {{ day }}
+          </div>
+        }
+      </div>
+
+      <!-- Calendar grid -->
+      <div class="grid grid-cols-7 gap-1" role="grid" [attr.aria-label]="monthLabel() + ' calendar'">
+        @for (cell of calendarDays(); track dateKey(cell.date)) {
+          <app-calendar-cell
+            [cell]="cell"
+            [activeDate]="activeDate()"
+            (cellClicked)="dateSelected.emit($event)"
+          />
+        }
+      </div>
+
+      <app-calendar-legend />
+    </div>
+  }
+</div>

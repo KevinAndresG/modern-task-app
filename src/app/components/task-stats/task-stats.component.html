@@ -1,0 +1,125 @@
+<div class="glass-card">
+  <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-8">
+
+    <!-- Donut Chart -->
+    <div class="flex flex-col items-center gap-3 flex-shrink-0">
+      <div class="relative" style="width:140px;height:140px;">
+        <svg width="140" height="140" viewBox="0 0 140 140" role="img" aria-label="Task distribution chart">
+          <circle cx="70" cy="70" r="52" fill="none" stroke="var(--clay-border)" stroke-width="18"/>
+
+          @if (total() === 0) {
+            <circle cx="70" cy="70" r="52" fill="none" stroke="var(--clay-border-lg)"
+                    stroke-width="18" stroke-dasharray="4 4"/>
+          } @else {
+            @for (slice of donutSlices(); track slice.state) {
+              @if (slice.path) {
+                <path
+                  [attr.d]="slice.path"
+                  [attr.fill]="slice.color"
+                  [attr.opacity]="hoveredState() !== null && hoveredState() !== slice.state ? '0.25' : '1'"
+                  style="cursor:pointer;transition:opacity 0.2s ease;"
+                  (mouseenter)="hoverSlice(slice.state)"
+                  (mouseleave)="hoverSlice(null)"
+                  [attr.aria-label]="slice.label + ': ' + slice.count + ' tasks (' + slice.pct + '%)'"
+                />
+              }
+            }
+          }
+
+          <text x="70" y="64" text-anchor="middle" fill="var(--clay-text)"
+                font-size="22" font-weight="800" font-family="'Plus Jakarta Sans',sans-serif">{{ total() }}</text>
+          <text x="70" y="81" text-anchor="middle" fill="var(--clay-muted)"
+                font-size="8.5" font-weight="700" font-family="'Plus Jakarta Sans',sans-serif" letter-spacing="0.10em">TASKS</text>
+        </svg>
+
+        @if (hoveredState() !== null) {
+          @for (slice of donutSlices(); track slice.state) {
+            @if (slice.state === hoveredState() && slice.pct > 0) {
+              <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
+                   style="animation: fadeIn 0.15s ease-out;">
+                <span class="text-xl font-bold" [style.color]="slice.color">{{ slice.pct }}%</span>
+                <span class="text-xs font-semibold" style="color: var(--clay-muted)">{{ slice.label }}</span>
+              </div>
+            }
+          }
+        }
+      </div>
+
+      <!-- Completion pill -->
+      <div class="px-3.5 py-1.5 rounded-full text-xs font-bold"
+           style="
+             background: rgba(52,211,153,0.14);
+             border: 2px solid rgba(52,211,153,0.32);
+             color: #34D399;
+             box-shadow: 3px 3px 10px rgba(52,211,153,0.18), -1px -1px 5px var(--clay-shadow-b);
+           ">
+        {{ completionRate() }}% complete
+      </div>
+
+      <!-- Urgency pills -->
+      @if (overdue() > 0 || dueToday() > 0) {
+        <div class="flex flex-col gap-1.5 w-full">
+          @if (overdue() > 0) {
+            <div class="flex items-center justify-between px-3 py-1.5 rounded-2xl"
+                 style="
+                   background: rgba(251,113,133,0.12);
+                   border: 2px solid rgba(251,113,133,0.30);
+                   box-shadow: 3px 3px 8px rgba(251,113,133,0.15), -1px -1px 5px var(--clay-shadow-b);
+                 ">
+              <span class="text-xs font-bold" style="color: #FDA4AF">Overdue</span>
+              <span class="text-sm font-extrabold" style="color: #FB7185">{{ overdue() }}</span>
+            </div>
+          }
+          @if (dueToday() > 0) {
+            <div class="flex items-center justify-between px-3 py-1.5 rounded-2xl"
+                 style="
+                   background: rgba(251,191,36,0.10);
+                   border: 2px solid rgba(251,191,36,0.28);
+                   box-shadow: 3px 3px 8px rgba(251,191,36,0.12), -1px -1px 5px var(--clay-shadow-b);
+                 ">
+              <span class="text-xs font-bold" style="color: #FCD34D">Due today</span>
+              <span class="text-sm font-extrabold" style="color: #FBBF24">{{ dueToday() }}</span>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Stat Cards Grid -->
+    <div class="grid grid-cols-2 gap-3 flex-1">
+      @for (card of statCards(); track card.state) {
+        <div
+          class="glass-stat-card cursor-default"
+          (mouseenter)="hoverSlice(card.state)"
+          (mouseleave)="hoverSlice(null)"
+          [style.border-color]="hoveredState() === card.state ? card.color + '60' : 'var(--clay-border)'"
+        >
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-bold tracking-widest uppercase" style="color: var(--clay-muted)">
+              {{ card.label }}
+            </span>
+            <span class="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                  [style.background]="card.color"
+                  [style.box-shadow]="'0 0 ' + (hoveredState() === card.state ? '12px ' : '5px ') + card.glowColor">
+            </span>
+          </div>
+
+          <div class="text-2xl font-extrabold leading-none mb-2"
+               [style.color]="card.color"
+               [style.text-shadow]="hoveredState() === card.state ? '0 0 20px ' + card.glowColor : 'none'">
+            {{ card.count }}
+          </div>
+
+          <div class="h-1.5 rounded-full" style="background: var(--clay-border);">
+            <div class="h-full rounded-full transition-all duration-500"
+                 [style.width]="total() > 0 ? (card.count / total() * 100) + '%' : '0%'"
+                 [style.background]="card.color"
+                 [style.box-shadow]="'0 0 8px ' + card.glowColor">
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="flex items-center justify-between mb-5">
+  <div class="flex items-center gap-2.5">
+    <div
+      class="w-8 h-8 rounded-2xl flex items-center justify-center flex-shrink-0"
+      style="
+        background: linear-gradient(145deg, var(--clay-accent), #B8AEFF);
+        border: 2px solid rgba(255,255,255,0.22);
+        box-shadow:
+          4px 4px 12px var(--clay-accent-glow),
+          -2px -2px 6px var(--clay-shadow-b),
+          inset 0 2px 0 rgba(255,255,255,0.28),
+          inset 0 -2px 0 rgba(0,0,0,0.18);
+      "
+    >
+      <svg class="w-4 h-4" style="color:#fff" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+      </svg>
+    </div>
+    <div>
+      <span class="text-sm font-bold" style="color: var(--clay-text)">Deadlines</span>
+      <span class="text-xs ml-2 font-semibold" style="color: var(--clay-muted)">{{ monthLabel() }}</span>
+    </div>
+  </div>
+
+  <button
+    type="button"
+    (click)="toggleCollapse.emit()"
+    [attr.aria-expanded]="!collapsed()"
+    aria-controls="calendar-body"
+    class="btn-secondary flex items-center gap-1.5 cursor-pointer"
+    style="font-size:0.75rem; padding: 0.45rem 0.875rem; border-radius: 12px;"
+  >
+    <svg
+      class="w-3.5 h-3.5 transition-transform duration-300"
+      [style.transform]="collapsed() ? 'rotate(0deg)' : 'rotate(180deg)'"
+      fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+    </svg>
+    {{ collapsed() ? 'Show' : 'Hide' }}
+  </button>
+</div>

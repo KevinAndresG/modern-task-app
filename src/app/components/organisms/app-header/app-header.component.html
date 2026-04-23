@@ -1,0 +1,112 @@
+<header class="clay-header sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo + Title -->
+      <div class="flex items-center gap-3">
+        <div
+          class="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0"
+          style="
+            background: linear-gradient(145deg, var(--clay-accent), #b8aeff);
+            border: 2px solid rgba(255, 255, 255, 0.22);
+            box-shadow:
+              5px 5px 14px var(--clay-accent-glow),
+              -2px -2px 8px rgba(255, 255, 255, 0.12),
+              inset 0 2px 0 rgba(255, 255, 255, 0.28),
+              inset 0 -2px 0 rgba(0, 0, 0, 0.18);
+          "
+        >
+          <svg
+            class="w-5 h-5"
+            style="color: #fff"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2.2"
+              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+            />
+          </svg>
+        </div>
+        <div>
+          <h1
+            class="text-base font-bold"
+            style="color: var(--clay-text); letter-spacing: -0.02em"
+          >
+            Task Manager
+          </h1>
+          <p class="text-xs font-medium" style="color: var(--clay-muted); margin-top: -1px">
+            Productivity dashboard
+          </p>
+        </div>
+      </div>
+
+      <!-- Right: task count + theme toggle -->
+      <div class="flex items-center gap-3">
+        <div
+          class="flex items-center gap-2 px-3.5 py-1.5 rounded-full"
+          style="
+            background: var(--clay-accent-soft);
+            border: 2px solid rgba(124, 109, 250, 0.28);
+            box-shadow:
+              4px 4px 12px var(--clay-accent-glow),
+              -2px -2px 6px var(--clay-shadow-b),
+              inset 0 1px 0 var(--clay-inner-top);
+          "
+        >
+          <span
+            class="w-2 h-2 rounded-full flex-shrink-0"
+            style="background: var(--clay-accent); box-shadow: 0 0 8px var(--clay-accent-glow)"
+          ></span>
+          <span class="text-xs font-bold" style="color: var(--clay-accent)">
+            {{ taskCount() }} tasks
+          </span>
+        </div>
+
+        <!-- Theme toggle -->
+        <button
+          type="button"
+          class="theme-toggle"
+          (click)="themeToggle.emit()"
+          [attr.aria-label]="isDark() ? 'Switch to light mode' : 'Switch to dark mode'"
+          [attr.aria-pressed]="!isDark()"
+        >
+          @if (isDark()) {
+            <svg
+              style="width: 1.125rem; height: 1.125rem"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"
+              />
+            </svg>
+          } @else {
+            <svg
+              style="width: 1.125rem; height: 1.125rem"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+              />
+            </svg>
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+</header>

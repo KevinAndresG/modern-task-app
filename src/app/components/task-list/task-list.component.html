@@ -1,0 +1,160 @@
+<div class="space-y-4">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <h2 class="text-lg font-bold" style="color: var(--clay-text)">Tasks
+      <span class="text-sm font-semibold ml-2" style="color: var(--clay-muted)">
+        {{ filteredTasks().length }}
+      </span>
+    </h2>
+    @if (totalPages() > 1) {
+      <span class="text-xs font-semibold" style="color: var(--clay-dim)">{{ currentPage() }} / {{ totalPages() }}</span>
+    }
+  </div>
+
+  <!-- Search -->
+  <div class="relative">
+    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none"
+         style="color: var(--clay-muted)"
+         fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0"/>
+    </svg>
+    <input
+      type="search"
+      placeholder="Search tasks…"
+      aria-label="Search tasks"
+      class="input"
+      style="padding-left: 2.375rem"
+      [value]="searchQuery()"
+      (input)="setSearch($any($event.target).value)"
+    />
+  </div>
+
+  <!-- Filter chips -->
+  <div class="flex items-center gap-1.5 flex-wrap" role="group" aria-label="Filter by state">
+    @for (chip of filterChips; track chip.value) {
+      <button
+        type="button"
+        (click)="setFilter(chip.value)"
+        [attr.aria-pressed]="filterState() === chip.value"
+        class="text-xs font-bold px-3.5 py-1.5 rounded-full transition-all duration-200 cursor-pointer"
+        [style]="filterState() === chip.value
+          ? 'background: var(--clay-accent-soft); color: var(--clay-accent); border: 2px solid var(--clay-accent); box-shadow: 4px 4px 10px var(--clay-accent-glow), -1px -1px 5px var(--clay-shadow-b); transform: translateY(-1px);'
+          : 'background: var(--clay-surface); color: var(--clay-muted); border: 2px solid var(--clay-border); box-shadow: 3px 3px 8px var(--clay-shadow-a), -1px -1px 5px var(--clay-shadow-b);'"
+      >
+        {{ chip.label }}
+      </button>
+    }
+  </div>
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="space-y-3">
+      @for (item of [1, 2, 3, 4, 5]; track $index) {
+        <div class="clay-card-flat">
+          <div class="h-5 rounded-xl w-3/4 mb-3 skeleton-glass"></div>
+          <div class="h-4 rounded-xl w-full mb-2 skeleton-glass"></div>
+          <div class="h-4 rounded-xl w-2/3 skeleton-glass"></div>
+        </div>
+      }
+    </div>
+
+  <!-- Error -->
+  } @else if (error()) {
+    <div class="clay-card" style="border-color: rgba(251,113,133,0.35);">
+      <div class="flex items-center gap-3">
+        <svg class="w-5 h-5 flex-shrink-0" style="color: #FDA4AF" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <div>
+          <p class="font-semibold text-sm" style="color: #FDA4AF">{{ error() }}</p>
+          <button type="button" (click)="refresh()" class="text-xs mt-1 underline cursor-pointer font-semibold" style="color: var(--clay-accent)">Try again</button>
+        </div>
+      </div>
+    </div>
+
+  <!-- Empty -->
+  } @else if (filteredTasks().length === 0) {
+    <div class="clay-card text-center py-14">
+      <div class="w-14 h-14 rounded-2xl mx-auto mb-4 flex items-center justify-center"
+           style="
+             background: var(--clay-surface);
+             border: 2px solid var(--clay-border);
+             box-shadow: 4px 4px 12px var(--clay-shadow-a), -2px -2px 8px var(--clay-shadow-b);
+           ">
+        <svg class="w-7 h-7" style="color: var(--clay-dim)" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+        </svg>
+      </div>
+      @if (searchQuery() || filterState() !== 'all') {
+        <p class="font-semibold text-sm" style="color: var(--clay-muted)">No tasks match filters</p>
+        <button type="button" (click)="setFilter('all'); setSearch('')"
+                class="text-xs mt-2 cursor-pointer font-bold transition-colors duration-200"
+                style="color: var(--clay-accent)">
+          Clear filters
+        </button>
+      } @else {
+        <p class="font-semibold text-sm" style="color: var(--clay-muted)">No tasks yet</p>
+        <p class="text-xs mt-1" style="color: var(--clay-dim)">Create your first task using the form</p>
+      }
+    </div>
+
+  <!-- Task list -->
+  } @else {
+    <div class="flex flex-col gap-3">
+      @for (task of paginatedTasks(); track task.id) {
+        <app-task-item [task]="task" (stateChanged)="onStateChange($event)" (deleted)="onDelete($event)"/>
+      }
+    </div>
+
+    <!-- Pagination -->
+    @if (totalPages() > 1) {
+      <div class="flex items-center justify-center gap-2 pt-4">
+        <button
+          type="button"
+          (click)="previousPage()"
+          [disabled]="currentPage() === 1"
+          aria-label="Previous page"
+          class="btn-secondary flex items-center justify-center cursor-pointer"
+          style="width:2.375rem;height:2.375rem;padding:0;border-radius:12px;"
+          [style.opacity]="currentPage() === 1 ? '0.35' : '1'"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+
+        @for (page of pages(); track page) {
+          <button
+            type="button"
+            (click)="goToPage(page)"
+            [attr.aria-current]="page === currentPage() ? 'page' : null"
+            class="text-sm font-bold transition-all duration-200 cursor-pointer"
+            style="width:2.375rem;height:2.375rem;border-radius:12px;"
+            [style]="page === currentPage()
+              ? 'background: var(--clay-accent-soft); color: var(--clay-accent); border: 2px solid var(--clay-accent); box-shadow: 4px 4px 12px var(--clay-accent-glow);'
+              : 'background: var(--clay-surface); color: var(--clay-muted); border: 2px solid var(--clay-border); box-shadow: 3px 3px 8px var(--clay-shadow-a), -1px -1px 5px var(--clay-shadow-b);'"
+          >
+            {{ page }}
+          </button>
+        }
+
+        <button
+          type="button"
+          (click)="nextPage()"
+          [disabled]="currentPage() === totalPages()"
+          aria-label="Next page"
+          class="btn-secondary flex items-center justify-center cursor-pointer"
+          style="width:2.375rem;height:2.375rem;padding:0;border-radius:12px;"
+          [style.opacity]="currentPage() === totalPages() ? '0.35' : '1'"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+    }
+  }
+
+</div>

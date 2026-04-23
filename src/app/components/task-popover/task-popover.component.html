@@ -1,0 +1,85 @@
+@if (isVisible()) {
+  <!-- Backdrop (transparent, closes on click outside) -->
+  <div
+    class="popover-backdrop"
+    (click)="close()"
+    (keydown.escape)="close()"
+    tabindex="-1"
+    aria-hidden="true"
+  ></div>
+
+  <!-- Popover card -->
+  <div
+    class="popover-card"
+    role="dialog"
+    aria-label="Quick add task"
+    [style.top.px]="posTop()"
+    [style.left.px]="posLeft()"
+    [class.popover-open-upward]="openUpward()"
+    (click)="$event.stopPropagation()"
+  >
+    <!-- Arrow -->
+    <div class="popover-arrow" [class.popover-arrow-up]="!openUpward()" [class.popover-arrow-down]="openUpward()"></div>
+
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-3">
+      <span class="text-xs font-bold tracking-widest uppercase" style="color: var(--clay-accent)">
+        Quick Add
+      </span>
+      <button type="button" (click)="close()" class="popover-close-btn cursor-pointer" aria-label="Close">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-2.5">
+
+      <!-- Title -->
+      <input
+        type="text"
+        formControlName="title"
+        class="input"
+        placeholder="Task title"
+        autofocus
+        style="font-size: 0.875rem;"
+      />
+      @if (titleCtrl?.invalid && titleCtrl?.touched) {
+        <p class="text-xs font-semibold" style="color: #FDA4AF">Title is required</p>
+      }
+
+      <!-- Date -->
+      <input
+        type="date"
+        formControlName="date"
+        class="input"
+        style="font-size: 0.8rem;"
+      />
+
+      <!-- Divider -->
+      <div class="h-px" style="background: var(--clay-border)"></div>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-2">
+        <button
+          type="submit"
+          [disabled]="form.invalid || isSubmitting()"
+          class="btn-primary flex-1 cursor-pointer"
+          style="font-size: 0.78rem; padding: 0.4rem 0.75rem;"
+        >
+          Create
+        </button>
+        <button
+          type="button"
+          (click)="openMore()"
+          class="btn-secondary cursor-pointer"
+          style="font-size: 0.78rem; padding: 0.4rem 0.75rem; white-space: nowrap;"
+          title="Open full form"
+        >
+          More options
+        </button>
+      </div>
+
+    </form>
+  </div>
+}

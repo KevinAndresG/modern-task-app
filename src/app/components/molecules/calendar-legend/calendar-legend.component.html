@@ -1,0 +1,9 @@
+<div class="flex flex-wrap items-center gap-x-5 gap-y-2 mt-5 pt-4"
+     style="border-top: 2px solid var(--clay-border)">
+  @for (item of items; track item.state) {
+    <div class="flex items-center gap-1.5">
+      <app-state-dot [state]="item.state" size="md" />
+      <span class="text-xs font-semibold" style="color: var(--clay-muted)">{{ item.label }}</span>
+    </div>
+  }
+</div>

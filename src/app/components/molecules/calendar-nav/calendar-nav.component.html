@@ -1,0 +1,66 @@
+<div class="flex items-center gap-2 mb-5">
+  <button type="button" (click)="prevMonth.emit()" aria-label="Previous month"
+    class="btn-secondary cursor-pointer flex items-center justify-center flex-shrink-0"
+    style="width:2.5rem;height:2.5rem;padding:0;border-radius:12px;">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+    </svg>
+  </button>
+
+  <!-- Month + Year selects -->
+  <div class="flex items-center gap-1.5 flex-1 justify-center">
+    <select
+      [value]="selectedMonth()"
+      (change)="onMonthSelect($any($event.target).value)"
+      class="text-sm font-bold px-2.5 py-2 rounded-xl cursor-pointer"
+      style="
+        background: var(--clay-surface);
+        border: 2px solid var(--clay-border);
+        color: var(--clay-text);
+        outline: none;
+        box-shadow:
+          3px 3px 8px var(--clay-shadow-a),
+          -1px -1px 5px var(--clay-shadow-b),
+          inset 0 1px 0 var(--clay-inner-top);
+      "
+    >
+      @for (m of months; track $index) {
+        <option [value]="$index" [selected]="$index === selectedMonth()">{{ m }}</option>
+      }
+    </select>
+
+    <select
+      [value]="selectedYear()"
+      (change)="onYearSelect($any($event.target).value)"
+      class="text-sm font-bold px-2.5 py-2 rounded-xl cursor-pointer"
+      style="
+        background: var(--clay-surface);
+        border: 2px solid var(--clay-border);
+        color: var(--clay-text);
+        outline: none;
+        box-shadow:
+          3px 3px 8px var(--clay-shadow-a),
+          -1px -1px 5px var(--clay-shadow-b),
+          inset 0 1px 0 var(--clay-inner-top);
+      "
+    >
+      @for (y of years(); track y) {
+        <option [value]="y" [selected]="y === selectedYear()">{{ y }}</option>
+      }
+    </select>
+  </div>
+
+  <button type="button" (click)="nextMonth.emit()" aria-label="Next month"
+    class="btn-secondary cursor-pointer flex items-center justify-center flex-shrink-0"
+    style="width:2.5rem;height:2.5rem;padding:0;border-radius:12px;">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+    </svg>
+  </button>
+
+  <!-- Today pill -->
+  <button type="button" (click)="goToday.emit()" class="btn-primary cursor-pointer flex-shrink-0"
+    style="font-size:0.7rem;padding:0.45rem 0.875rem;border-radius:10px;letter-spacing:0.05em;text-transform:uppercase;">
+    Today
+  </button>
+</div>
