@@ -101,7 +101,6 @@ describe('StateDotComponent', () => {
       fixture.detectChanges();
 
       const span = fixture.nativeElement.querySelector('span');
-      // Glow format: "0 0 6px [color]80"
       expect(span.style.boxShadow).toContain('0 0 6px #34D39980');
     });
   });

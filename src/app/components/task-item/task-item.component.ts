@@ -31,7 +31,6 @@ export class TaskItemComponent {
 
   toggleExpand(): void { this.expanded.update(v => !v); }
 
-  /** Copy task to edit buffer and enter edit mode */
   startEdit(): void {
     const t = this.task();
     this.editTitle.set(t.title);
@@ -42,7 +41,6 @@ export class TaskItemComponent {
     this.expanded.set(false);
   }
 
-  /** Validate and persist edit; show toast on success */
   saveEdit(): void {
     const title = this.editTitle().trim();
     const desc  = this.editDesc().trim();
@@ -55,7 +53,6 @@ export class TaskItemComponent {
     this.editing.set(false);
   }
 
-  /** Exit edit mode without saving */
   cancelEdit(): void { this.editing.set(false); }
 
   updateNote(index: number, value: string): void {
@@ -79,13 +76,11 @@ export class TaskItemComponent {
 
   getNotesCount(): number { return this.task().notes?.length ?? 0; }
 
-  /** Resolve current state from latest history entry */
   getCurrentState(): string {
     const h = this.task().stateHistory;
     return h.length > 0 ? h[h.length - 1].state : 'new';
   }
 
-  /** Check if task due date is before today (and not resolved/closed) */
   isOverdue(): boolean {
     const state = this.getCurrentState();
     if (state === 'resolved' || state === 'closed') return false;

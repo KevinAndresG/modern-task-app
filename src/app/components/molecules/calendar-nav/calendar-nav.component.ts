@@ -6,9 +6,6 @@ const MONTHS = [
   'July','August','September','October','November','December',
 ];
 
-/**
- * Calendar navigation bar: month/year selects, prev/next buttons, Today button.
- */
 @Component({
   selector: 'app-calendar-nav',
   standalone: true,
@@ -16,13 +13,10 @@ const MONTHS = [
   templateUrl: './calendar-nav.component.html',
 })
 export class CalendarNavComponent {
-  /** Zero-based month index (0–11) */
   readonly selectedMonth = input.required<number>();
 
-  /** Four-digit year */
   readonly selectedYear = input.required<number>();
 
-  /** Array of years for the year select, typically ±5 from today */
   readonly years = input.required<number[]>();
 
   readonly prevMonth = output<void>();

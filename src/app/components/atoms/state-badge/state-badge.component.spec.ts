@@ -154,8 +154,6 @@ describe('StateBadgeComponent', () => {
       fixture.componentRef.setInput('state', '  active  ');
       fixture.detectChanges();
 
-      // STATE_COLORS doesn't have trimming, so '  active  ' won't match
-      // Should default to badge-new
       const span = fixture.nativeElement.querySelector('span');
       expect(span.classList.contains('badge-new')).toBe(true);
     });
@@ -164,7 +162,6 @@ describe('StateBadgeComponent', () => {
       fixture.componentRef.setInput('state', 'ACTIVE');
       fixture.detectChanges();
 
-      // STATE_COLORS is lowercase only
       const span = fixture.nativeElement.querySelector('span');
       expect(span.classList.contains('badge-new')).toBe(true);
     });

@@ -8,10 +8,6 @@ const LEGEND_ITEMS = [
   { label: 'Closed', state: 'closed' },
 ] as const;
 
-/**
- * Calendar state legend row.
- * Displays one state dot + label for each task state. Presentational only.
- */
 @Component({
   selector: 'app-calendar-legend',
   standalone: true,

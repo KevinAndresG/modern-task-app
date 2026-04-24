@@ -31,14 +31,12 @@ export class TaskCalendarComponent {
 
   readonly weekdays = WEEKDAYS;
 
-  /** Emits date + cell bounding rect when user clicks a current-month cell */
   readonly dateSelected = output<{ date: string; rect: DOMRect }>();
 
   readonly viewDate = computed(() =>
     new Date(this.selectedYear(), this.selectedMonth(), 1)
   );
 
-  /** Array of years for year select: ±5 years from current */
   readonly years = computed(() => {
     const current = this.today.getFullYear();
     const result: number[] = [];
@@ -46,12 +44,10 @@ export class TaskCalendarComponent {
     return result;
   });
 
-  /** Formatted month + year label, e.g. "April 2026" */
   readonly monthLabel = computed(() =>
     `${MONTHS[this.selectedMonth()]} ${this.selectedYear()}`
   );
 
-  /** 42-cell calendar grid (6 rows × 7 cols) with task data attached */
   readonly calendarDays = computed((): CalendarDay[] => {
     const year = this.selectedYear();
     const month = this.selectedMonth();
@@ -73,7 +69,6 @@ export class TaskCalendarComponent {
     return days;
   });
 
-  /** Build a CalendarDay object: filter tasks by date, check if today */
   private makeDay(date: Date, isCurrentMonth: boolean): CalendarDay {
     const tasks = this.taskService.tasks().filter(task => {
       if (!task.dueDate) return false;
@@ -89,7 +84,6 @@ export class TaskCalendarComponent {
     return { date, isCurrentMonth, isToday, tasks };
   }
 
-  /** Navigate to previous month */
   prevMonth(): void {
     if (this.selectedMonth() === 0) {
       this.selectedMonth.set(11);
@@ -99,7 +93,6 @@ export class TaskCalendarComponent {
     }
   }
 
-  /** Navigate to next month */
   nextMonth(): void {
     if (this.selectedMonth() === 11) {
       this.selectedMonth.set(0);
@@ -109,7 +102,6 @@ export class TaskCalendarComponent {
     }
   }
 
-  /** Jump to today's month/year */
   goToday(): void {
     this.selectedMonth.set(this.today.getMonth());
     this.selectedYear.set(this.today.getFullYear());
@@ -119,7 +111,6 @@ export class TaskCalendarComponent {
   onYearChange(value: number): void { this.selectedYear.set(value); }
   toggleCollapse(): void { this.collapsed.update(v => !v); }
 
-  /** Convert Date to ISO date string YYYY-MM-DD */
   dateKey(date: Date): string {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   }

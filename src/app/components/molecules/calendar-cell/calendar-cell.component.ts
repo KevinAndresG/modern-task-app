@@ -10,10 +10,6 @@ export interface CalendarDay {
   tasks: Task[];
 }
 
-/**
- * Single calendar day cell.
- * Manages hover state for tooltip. Emits click events for current-month cells.
- */
 @Component({
   selector: 'app-calendar-cell',
   standalone: true,
@@ -22,13 +18,10 @@ export interface CalendarDay {
   styleUrl: './calendar-cell.component.scss',
 })
 export class CalendarCellComponent {
-  /** Day data object for this cell */
   readonly cell = input.required<CalendarDay>();
 
-  /** ISO date of currently active/selected cell for styling */
   readonly activeDate = input<string | null>(null);
 
-  /** Emits { date: ISO string, rect: DOMRect } on current-month cell click */
   readonly cellClicked = output<{ date: string; rect: DOMRect }>();
 
   readonly isHovered = signal<boolean>(false);
@@ -71,12 +64,10 @@ export class CalendarCellComponent {
     return 'none';
   });
 
-  /** Compute ISO date string for this cell */
   private dateToISO(date: Date): string {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   }
 
-  /** Resolve state color from task history */
   getStateColor(task: Task): string {
     const history = task.stateHistory;
     const state = history.length > 0 ? history[history.length - 1].state : 'new';
@@ -89,7 +80,6 @@ export class CalendarCellComponent {
     return map[state] ?? '#818cf8';
   }
 
-  /** Compute glow shadow for task dot */
   getStateGlow(task: Task): string {
     return `0 0 6px ${this.getStateColor(task)}80`;
   }

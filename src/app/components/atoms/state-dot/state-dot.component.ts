@@ -8,20 +8,14 @@ const SIZE_MAP: Record<DotSize, string> = {
   md: '7px',
 };
 
-/**
- * Small filled circle representing task state.
- * Color and glow computed from state CSS variables.
- */
 @Component({
   selector: 'app-state-dot',
   standalone: true,
   templateUrl: './state-dot.component.html',
 })
 export class StateDotComponent {
-  /** Task state key: 'new' | 'active' | 'resolved' | 'closed' */
   readonly state = input.required<string>();
 
-  /** Visual size: xs=5px, sm=6px, md=7px. Default: 'sm' */
   readonly size = input<DotSize>('sm');
 
   readonly dimension = computed(() => SIZE_MAP[this.size()]);
