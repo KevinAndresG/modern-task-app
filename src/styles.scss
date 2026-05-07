@@ -323,7 +323,7 @@
       -5px -5px 14px var(--clay-shadow-b),
       inset 0 2px 0 var(--clay-inner-top),
       inset 0 -2px 0 var(--clay-inner-bot);
-    transform: translateY(-3px) rotate3d(1, 0, 0, 1deg);
+    transform: scale(1.01) rotate3d(1, 0, 0, 1deg);
   }
 
   .clay-header {
