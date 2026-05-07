@@ -9,11 +9,11 @@
       "stateHistory": [
         {
           "state": "new",
-          "date": "2026-09-10"
+          "date": "2026-04-28"
         },
         {
           "state": "active",
-          "date": "2026-09-15"
+          "date": "2026-04-30"
         }
       ],
       "notes": ["Propuesta de proyecto terminada.", "Revisión de la propuesta de proyecto."]
@@ -22,9 +22,14 @@
       "id": "2",
       "title": "Diseñar la interfaz de usuario",
       "description": "Diseñar la interfaz de usuario para la aplicación web.",
-      "dueDate": "2026-05-05",
+      "dueDate": "2026-05-10",
       "completed": false,
-      "stateHistory": [],
+      "stateHistory": [
+        {
+          "state": "new",
+          "date": "2026-04-28"
+        }
+      ],
       "notes": []
     },
     {
@@ -33,7 +38,12 @@
       "description": "Implementar autenticación de usuarios en la aplicación web.",
       "dueDate": "2026-05-15",
       "completed": false,
-      "stateHistory": [],
+      "stateHistory": [
+        {
+          "state": "new",
+          "date": "2026-04-28"
+        }
+      ],
       "notes": []
     },
     {
@@ -42,7 +52,12 @@
       "description": "Documentación de la API para la aplicación web.",
       "dueDate": "2026-06-10",
       "completed": false,
-      "stateHistory": [],
+      "stateHistory": [
+        {
+          "state": "new",
+          "date": "2026-04-28"
+        }
+      ],
       "notes": ["Documentación de la API para la aplicación web."]
     },
     {
@@ -51,7 +66,12 @@
       "description": "Realizar tests y corregir errores en la aplicación web.",
       "dueDate": "2026-06-20",
       "completed": false,
-      "stateHistory": [],
+      "stateHistory": [
+        {
+          "state": "new",
+          "date": "2026-04-28"
+        }
+      ],
       "notes": []
     },
     {
@@ -60,7 +80,12 @@
       "description": "Despliegue en Producción de la aplicación web.",
       "dueDate": "2026-06-25",
       "completed": false,
-      "stateHistory": [],
+      "stateHistory": [
+        {
+          "state": "new",
+          "date": "2026-04-28"
+        }
+      ],
       "notes": []
     },
     {
