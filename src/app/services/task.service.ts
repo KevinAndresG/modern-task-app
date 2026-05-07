@@ -1,4 +1,4 @@
-import { inject, Injectable, signal, computed, Signal } from '@angular/core';
+import { inject, Injectable, signal, Signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Task, TaskData, TaskState } from '../models/task.model';
 
@@ -37,20 +37,6 @@ export class TaskService {
         console.error('Error loading tasks:', error);
       },
     });
-  }
-
-  getTaskById(id: string): Signal<Task | undefined> {
-    return computed(() => this.tasksSignal().find((t) => t.id === id));
-  }
-
-  getTasksByState(stateName: string): Signal<Task[]> {
-    return computed(() =>
-      this.tasksSignal().filter(
-        (task) =>
-          task.stateHistory.length > 0 &&
-          task.stateHistory[task.stateHistory.length - 1].state === stateName,
-      ),
-    );
   }
 
   getCurrentState(task: Task): string {
